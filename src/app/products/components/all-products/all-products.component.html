@@ -1,0 +1,68 @@
+<div class="container">
+  <button class="btn btn-lg btn-outline-primary mt-3" (click)="open(content)">Add Product</button>
+    <div class="box mt-5">
+        <div  *ngIf="!loading">
+              <table class="table table-striped text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th  scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"> Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  *ngFor="let item of  products">
+                    <td class="p-2"><img src="{{item.image }}" class="card-img-top" alt="..." style="height: 10rem;width: 200px;"></td>
+                    <td class="p-2 text-center">{{item.title }}</td>
+                    <td class="p-2">{{item.category}}</td>
+                    <td class="p-2">{{item.price}}</td>
+                    <td class="p-2"><button class="btn btn-warning" (click)="update(item)" (click)="open(content)">Update</button></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="text-center w-100" *ngIf="loading">
+        <!-- <app-spinner></app-spinner> -->
+        <app-spinner></app-spinner>
+        <!-- <app-header></app-header> -->
+    </div>
+</div>
+<ng-template #content let-modal  >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">carts</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body ">
+    <form class="row g-3" [formGroup]="form">
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Title</label>
+        <input type="text" formControlName="title"  class="form-control" id="inputEmail4">
+      </div>
+      <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">price</label>
+        <input type="number" formControlName="price"class="form-control" id="inputPassword4">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <textarea class="form-control" formControlName="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <div class="col-12">
+        <label for="inputAddress" class="form-label">Image</label>
+        <img src="{{base64}}" alt="" width="25%">
+        <input type="file" class="form-control" id="inputAddress" (change)="getImagePath($event)">
+      </div>
+      <div class="col-md-4">
+        <app-select [data]="categories" [title]="'categories'" (selectedValue)="filtercategory($event)" [all]="false" [select]="form.value.category"></app-select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" [disabled]="!form.valid" (click)="addProduct()" (click)="modal.close('Save click')">Add Product</button>
+  </div>
+</ng-template>
+
+<pre>{{ closeResult }}</pre>
+

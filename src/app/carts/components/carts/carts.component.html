@@ -1,0 +1,78 @@
+
+  <div class="container">
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="">Start Date</label>
+          <input type="date" formControlName="Start" class="form-control">
+        </div>
+        <div class="col-md-3">
+          <label for="">End Date</label>
+          <input type="date" formControlName="End" class="form-control">
+        </div>
+        <div class="col-md-2 flex align-items-end">
+          <button class="btn btn-success" (click)="applyfilter()">Apply</button>
+        </div>
+      </div>
+    </form>
+      <div class="table-responsive">
+        <table class="table table-striped" >
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of carts; let index = index">
+              <td>{{item.date | date:"shortDate"}}</td>
+              <td>{{item.products.length}}</td>
+              <td ><button type="button" class="btn btn-danger w-25 me-1" (click)="deleteCart(item.id)">DELETE</button>  <button type="button" class="btn btn-info w-25" (click)="open(content)"  (click)="view(index)">Veiw</button> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <ng-template #content let-modal  >
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">carts</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body ">
+          <form>
+            <div class="mb-3">
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col ">image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Totle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 <tr *ngFor="let item of products; let i = index">
+                  <td class="p-5" > <img src='{{item.item.image}}'style="width:50px;height:50px"   alt=""></td>
+                  <td class="w-25 h-25 p-5 " >{{item.item.title}}</td>
+                  <td class="w-25 h-25 p-5" >{{item.item.price}} L.E</td>
+                  <td class="w-25 h-25 p-5" >{{item.quantity}}</td>
+                  <td class="w-25 h-25 p-5" >{{item.item.price * item.quantity}} L.E</td>
+
+                 </tr>
+                </tbody>
+              </table>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+      </ng-template>
+
+      <pre>{{ closeResult }}</pre>
